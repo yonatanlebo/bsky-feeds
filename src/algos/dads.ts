@@ -70,9 +70,7 @@ export class manager extends AlgoManager {
 
     if (!details || !details.displayName || !details.description) return false
 
-    if (
-      `${details.description} ${details.displayName}`.match(this.re) !== null
-    ) {
+    if (`${details.description} ${details.displayName}`.match(this.re) !== null) {
       relevantUsers.add(post.author)
       match = true
     } else {

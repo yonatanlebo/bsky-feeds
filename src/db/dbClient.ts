@@ -209,6 +209,7 @@ class dbSingleton {
         $or: [
           { 'embed.images': { $ne: null } },
           { 'embed.video': { $ne: null } },
+          { 'embed.media': { $ne: null } },
         ],
       })
     }
@@ -271,12 +272,16 @@ class dbSingleton {
     else return results
   }
 
-  async getUnlabelledPostsWithImages(limit = 100, lagTime = 5 * 60 * 1000) {
+  async getUnlabelledPostsWithMedia(limit = 100, lagTime = 5 * 60 * 1000) {
     const results = this.client
       ?.db()
       .collection('post')
       .find({
-        'embed.images': { $ne: null },
+        $or: [
+          { 'embed.images': { $ne: null } },
+          { 'embed.video': { $ne: null } },
+          { 'embed.media': { $ne: null } },
+        ],
         labels: null,
         indexedAt: { $lt: new Date().getTime() - lagTime },
       })
